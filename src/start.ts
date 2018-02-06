@@ -9,10 +9,16 @@ const slackReminderChannel: string = process.env.SLACK_REMINDER_CHANNEL;
 const slackMRReminderEnabled: boolean = process.env.SLACK_MR_REMINDER_ENABLED === "false" ? false : true;
 const gitlabToken: any = process.env.GITLAB_TOKEN;
 const gitlabGroupName: any = process.env.GITLAB_GROUP_NAME;
+const slackBotName: string = process.env.SLACK_BOT_NAME || "Smallsack Bot";
 
 // create the slackbot
 Logger.info("Start", "Creating slackbot...");
-IOC.register("slackbot", new Slackbot(slackToken));
+const slackBot: Slackbot = new Slackbot(slackToken);
+let welcomeMessage: string = `Hello ladies and gentleman, it's me, ${slackBotName}. I just got started!`;
+if (slackMRReminderEnabled)
+    welcomeMessage += ` I will remind you about open MergeRequests every morning at 9am!`;
+slackBot.sendMessage(slackReminderChannel, welcomeMessage);
+IOC.register("slackbot", slackBot);
 
 // create gitlab service
 Logger.info("Start", "Creating gitlab service...");
