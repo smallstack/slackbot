@@ -29,6 +29,7 @@ const gitlabReminderService: GitlabReminderService = new GitlabReminderService({
 
 // every day at 9 about open MRs
 if (slackMRReminderEnabled) {
+    gitlabReminderService.remindAboutMRs();
     Logger.info("Start", "Starting MR Reminder Cronjob...");
     new CronJob("0 9 * * *", () => {
         gitlabReminderService.remindAboutMRs();
