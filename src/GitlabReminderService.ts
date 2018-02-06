@@ -30,7 +30,7 @@ export class GitlabReminderService extends GitlabService {
     public getProjectFromCache(projectId: string): any {
         return _.find(this.cachedProjects, (project) => project.id === projectId);
     }
-
+    
     public createSlackMergeRequestsMessage(merge_requests) {
         Logger.info("GitlabService", "creating SlackMergeRequestsMessage ");
         const attachments = merge_requests.map((mr) => {
