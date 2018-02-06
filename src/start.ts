@@ -32,7 +32,7 @@ const gitlabReminderService: GitlabReminderService = new GitlabReminderService({
 if (slackMRReminderEnabled) {
     gitlabReminderService.remindAboutMRs();
     Logger.info("Start", "Starting MR Reminder Cronjob...");
-    new CronJob("0 9 * * *", () => {
+    new CronJob("0 0 9 * * *", () => {
         gitlabReminderService.remindAboutMRs();
     }, null, true, timezone);
 }
