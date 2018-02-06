@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "target": "ES2015",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "inlineSources": false,
+    "declaration": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ],
+    "newLine": "LF",
+    "baseUrl": "."
+  },
+  "files": [
+    "src/start.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
