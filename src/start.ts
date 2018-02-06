@@ -10,13 +10,14 @@ const slackMRReminderEnabled: boolean = process.env.SLACK_MR_REMINDER_ENABLED ==
 const gitlabToken: any = process.env.GITLAB_TOKEN;
 const gitlabGroupName: any = process.env.GITLAB_GROUP_NAME;
 const slackBotName: string = process.env.SLACK_BOT_NAME || "Smallsack Bot";
+const timezone: string = process.env.TIMEZONE || "Europe/Berlin";
 
 // create the slackbot
 Logger.info("Start", "Creating slackbot...");
 const slackBot: Slackbot = new Slackbot(slackToken);
 let welcomeMessage: string = `Hello ladies and gentleman, it's me, ${slackBotName}. I just got started!`;
 if (slackMRReminderEnabled)
-    welcomeMessage += ` I will remind you about open MergeRequests every morning at 9am!`;
+    welcomeMessage += ` I will remind you about open Gitlab MergeRequests in your group '${gitlabGroupName}' every morning at 9am (${timezone})!`;
 slackBot.sendMessage(slackReminderChannel, welcomeMessage);
 IOC.register("slackbot", slackBot);
 
@@ -33,5 +34,5 @@ if (slackMRReminderEnabled) {
     Logger.info("Start", "Starting MR Reminder Cronjob...");
     new CronJob("0 9 * * *", () => {
         gitlabReminderService.remindAboutMRs();
-    }, null, true, 'Europe/Berlin');
+    }, null, true, timezone);
 }
