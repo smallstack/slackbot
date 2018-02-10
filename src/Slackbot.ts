@@ -37,6 +37,12 @@ export class Slackbot {
                 return;
             }
 
+            // Skip messages in public channels without the @BOT annotation
+            const botIdentifier: string = "<@" + this.rtmData.selfId + "> ";
+            if (message.channel.charAt(0) === "C" && message.text.indexOf(botIdentifier) !== 0)
+                return;
+            message.text = message.text.substring(botIdentifier.length);
+
             let answerFound: boolean = false;
             for (const answer of this.answerCallbacks) {
                 if (new RegExp(answer.messageRegex).test(message.text)) {

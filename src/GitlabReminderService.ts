@@ -30,7 +30,7 @@ export class GitlabReminderService extends GitlabService {
     public getProjectFromCache(projectId: string): any {
         return _.find(this.cachedProjects, (project) => project.id === projectId);
     }
-    
+
     public createSlackMergeRequestsMessage(merge_requests) {
         Logger.info("GitlabService", "creating SlackMergeRequestsMessage ");
         const attachments = merge_requests.map((mr) => {
@@ -69,15 +69,23 @@ export class GitlabReminderService extends GitlabService {
     }
 
     public remindAboutMRs() {
-        this.getGroupMergeRequests()
+        this.getMRReminderMessage()
+            .then((message) => {
+                return new Promise((resolve, reject) => {
+                    this.slackbot.sendMessage(this.reminderOptions.slackChannel, this.reminderOptions.slackMessage, message);
+                });
+            }, (message) => {
+                return Promise.resolve(message);
+            });
+    }
+
+    public getMRReminderMessage(): Promise<any> {
+        return this.getGroupMergeRequests()
             .then((merge_requests) => {
                 Logger.info("GitlabService", "found merge requests: ", merge_requests.length);
                 return merge_requests.filter((mr) => {
                     return mr.work_in_progress === false;
                 });
-                // .filter((mr) => {
-                //   return moment().diff(moment(mr.updated_at), 'days') > 0;
-                // });
             })
             .then((merge_requests) => {
                 Logger.info("GitlabService", "filtered merge requests: ", merge_requests.length);
@@ -87,13 +95,6 @@ export class GitlabReminderService extends GitlabService {
                 else {
                     throw 'No reminders to send'
                 }
-            })
-            .then((message) => {
-                return new Promise((resolve, reject) => {
-                    this.slackbot.sendMessage(this.reminderOptions.slackChannel, this.reminderOptions.slackMessage, message);
-                });
-            }, (message) => {
-                return Promise.resolve(message);
             });
     }
 }

@@ -5,6 +5,7 @@ import { CronJob } from "cron";
 
 // register answers
 import "./answers/gtt";
+import "./answers/mergeRequests";
 
 
 // variables

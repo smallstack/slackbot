@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.16.0",
-    "@smallstack/cli": "^0.10.44",
+    "@smallstack/cli": "^0.10.45",
     "@smallstack/common": "^0.6.2",
     "cron": "^1.3.0",
     "gtt": "^1.0.2",
