@@ -9,7 +9,7 @@ WORKDIR ${APP_DIR}
 ADD . .
 
 # install meteor dependencies
-RUN npm install
+RUN npm install --unsafe-perm
 RUN npm run compile
 
 # install runtime dependencies
